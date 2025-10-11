@@ -3,3 +3,64 @@ Comparando sus conocimientos antes de hacer la práctica con sus conocimientos d
 Si solucionó un problema presentado al realizar la práctica también se debe documentar.
 
 Consultar: Cómo se gestionan datos confidenciales con los secretos de Docker (Docker Secrets).
+# Gestión de datos confidenciales con Docker Secrets
+
+## ¿Qué son los secretos de Docker?
+
+Docker Secrets es una funcionalidad diseñada para almacenar y gestionar datos confidenciales (como contraseñas, claves API, certificados o tokens) de forma segura dentro de un entorno Docker, especialmente cuando se usa Docker Swarm.
+
+## Características principales
+
+- Los secretos no se almacenan en texto plano dentro de las imágenes o contenedores.
+- Se cifran en tránsito y en reposo dentro del clúster.
+- Solo los servicios autorizados pueden acceder a los secretos que necesitan.
+- No se exponen mediante variables de entorno, sino como archivos temporales dentro del contenedor.
+
+## Cómo se crean y usan los secretos
+
+### 1. Crear un secreto
+```
+echo "mi_clave_super_secreta" | docker secret create mi_secreto -
+```
+
+### 2. Listar los secretos existentes
+```
+docker secret ls
+```
+
+### 3. Usar el secreto en un servicio
+```
+docker service create   --name mi_servicio   --secret mi_secreto   nginx
+```
+
+### 4. Acceder al secreto dentro del contenedor
+Dentro del contenedor, el secreto se monta en:
+```
+/run/secrets/mi_secreto
+```
+Puedes leerlo como un archivo normal:
+```
+cat /run/secrets/mi_secreto
+```
+
+## Buenas prácticas
+
+- No incluir secretos en imágenes o repositorios de código.
+- Rotar los secretos regularmente.
+- Limitar el acceso solo a los servicios que los necesiten.
+- Usar nombres descriptivos y versionado de secretos cuando sea necesario.
+
+## Ejemplo práctico
+```
+# Crear el secreto
+echo "claveBD123" | docker secret create db_password -
+
+# Crear el servicio que lo usa
+docker service create   --name app_con_secreto   --secret db_password   myapp:latest
+```
+Dentro del contenedor, la aplicación podrá leer la contraseña desde:
+```
+/run/secrets/db_password
+```
+
+> **Fuente:** ChatGPT (GPT-5), OpenAI, 2025.
