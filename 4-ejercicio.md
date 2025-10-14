@@ -4,11 +4,16 @@
 ### Crear la red
 # COMPLETAR
 
+docker network create red_ejercicio_4 -d bridge
+
 ### Crear el contenedor mysql a partir de la imagen mysql:8, configurar las variables de entorno necesarias
 # COMPLETAR
-
+docker run -d --name contenedor-mysql --network red_ejericio_4 -e MYSQL_ROOT_PASSWORD=sebas mysql:8
 ### Crear el contenedor wordpress a partir de la imagen: wordpress, configurar las variables de entorno necesarias
 # COMPLETAR
+
+docker rm -f contenedor-wordpress 
+ docker run -d --name contenedor-wordpress1 --network red_ejercicio_4 -e WORDPRESS_DB_HOST=contenedor-mysql -e WORDPRESS_DB_USER=sebas -e WORDPRESS_DB_PASSWORD=sebas -e WORDPRESS_DB_NAME=bd_wordpress -p 8081:80 wordpress
 
 De acuerdo con el trabajo realizado, en el esquema del ejercicio el puerto a es **(completar con el valor)**
 
