@@ -5,19 +5,30 @@ Si solucionó un problema presentado al realizar la práctica también se debe d
 Al comparar mis conocimientos antes y después de la práctica, logré mejorar mi manejoi de docker, pasando de la gestión básica de contenedores a la configuración de redes y variables de entorno:
 
 ### 1. Comandos Esenciales
+### Para crear un contenedor con variables de entorno
 
+```
+docker run -d --name <nombre contenedor> -e <nombre variable1>=<valor1> -e <nombre variable2>=<valor2>
+```
 
+### Crear una red de tipo bridge
+
+```
+docker network create <nombre red> -d bridge
+```
+
+### Crear un contenedor vinculado a una red
+
+```
+docker run -d --name <nombre contenedor> --network <nombre red> <nombre imagen>
+```
 * **¿Qué aprendí?**
   Que las variables de entorno son:
 Usualmente son una relación clave:valor, para el correcto funcionamiento de una aplicación.
 Estas variables existen en el entorno del sistema operativo y pueden ser accedidas por aplicaciones durante su ejecución, dependiendo de su nivel de seguridad.
 
 Que las redes en ciertos casos: NO ES NECESARIO, PERO SI SEGURO: Hay que crear una red, para hacer esto posible, porque es para permitir la comunicación interna y segura entre los contenedores , evitando la exposición de puertos al host y habilitando la resolución por nombre de contenedor dentro del entorno aislado.
-### Para crear un contenedor con variables de entorno
 
-```
-docker run -d --name <nombre contenedor> -e <nombre variable1>=<valor1> -e <nombre variable2>=<valor2>
-```
 
 Consultar: Cómo se gestionan datos confidenciales con los secretos de Docker (Docker Secrets).
 # Gestión de datos confidenciales con Docker Secrets
